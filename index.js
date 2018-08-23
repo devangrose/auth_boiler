@@ -2,7 +2,8 @@
 var bodyParser = require('body-parser');
 var ejsLayouts = require('express-ejs-layouts');
 var express = require('express');
-var passport = require('passport');
+var passport = require('./config/passportConfig');
+var session = require('express-session');
 
 // Declare app variable 
 var app = express();
@@ -11,6 +12,14 @@ var app = express();
 app.set('view engine', 'ejs');
 app.use(ejsLayouts);
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+    secret: 'abc',
+    resave: false,
+    saveUninitialized: true
+}));
+// Make sure session is above these
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Controllers
 app.use('/auth',require('./controllers/auth.js'));
