@@ -6,7 +6,7 @@ var router = express.Router();
 
 // Define routes
 router.get('/login', function (req, res) {
-    res.send('yo from auth login page');
+    res.render('auth/login');
 });
 
 router.post('/login', function (req, res) {
@@ -14,7 +14,7 @@ router.post('/login', function (req, res) {
 });
 
 router.get('/signup', function (req, res) {
-    res.send('yo from auth signup page');
+    res.render('auth/signup');
 });
 
 router.post('/signup', function (req, res) {
