@@ -12,6 +12,10 @@ app.set('view engine', 'ejs');
 app.use(ejsLayouts);
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Controllers
+app.use('/auth',require('./controllers/auth.js'));
+app.use('/profile',require('./controllers/profile.js'));
+
 // Define routes
 app.get('/', function (req, res){
     res.render('home');
