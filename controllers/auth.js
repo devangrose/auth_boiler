@@ -42,14 +42,28 @@ router.post('/signup', function (req, res) {
             res.redirect('/auth/login');
         }
     }).catch(function (error) {
-        console.log(error);
-        res.render('error');
+        req.flash('error',error.message);
+        res.redirect('/auth/signup');
     });
 });
 
 router.get('/logout', function (req, res) {
-    res.send('yo from auth logout page');
+    req.logout();
+    req.flash("succes",'logout successful');
+    res.redirect('/');
 });
 
+/* OATH ROUTES */
+router.get('/facebook', passport.authenticate('facebook', {
+    scope: ['public_profile','email']
+    }
+)); 
 
+router.get('/callback/facebook', passport.authenticate('facebook',{
+    successRedirect: '/profile',
+    successFlash: 'facebook login successful',
+    failureRedirect: '/auth/login',
+    failureFlash: 'Ooops, FB fail'
+}));
+    
 module.exports = router;

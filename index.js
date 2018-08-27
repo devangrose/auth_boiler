@@ -2,6 +2,7 @@
 var bodyParser = require('body-parser');
 var ejsLayouts = require('express-ejs-layouts');
 var express = require('express');
+var flash = require('connect-flash');
 var passport = require('./config/passportConfig');
 var session = require('express-session');
 
@@ -18,8 +19,16 @@ app.use(session({
     saveUninitialized: true
 }));
 // Make sure session is above these
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+
+/// Custom middleware -FUN!
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;
+    res.locals.alerts = req.flash();
+    next();
+});
 
 // Controllers
 app.use('/auth',require('./controllers/auth.js'));
